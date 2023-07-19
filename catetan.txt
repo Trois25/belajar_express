@@ -1,0 +1,4 @@
+<%= %> digunakan untuk mencetak isi dari js dan digunakan untuk mengambil
+nilai variabel
+<%- %> menampilkan isi dari js dan digunakan apabila ingin membuat
+halaman yang memiliki banyak kesamaan

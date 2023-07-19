@@ -1,26 +1,55 @@
 //note : pada express urutan route untuk use berpengaruh sehingga apabila use / diberikan diatas maka route lain tak akan dijalankan
-
 const express = require('express');
+
+const expressLayout = require('express-ejs-layouts');
 const app = express();
 const port = 3000
 
+//memanggil view engine ejs
+app.set('view engine', 'ejs');
+app.use(expressLayout);
+
 //get mengirim file index html
 app.get('/', (req, res) => {
-    res.sendFile('./index.html',{root : __dirname});
+    const mahasiswa = [
+        {
+        nama : 'Juan Azhar',
+        kelas : 'IF - H'
+    },
+    {
+        nama : 'Klepon',
+        kelas : 'IF - D'
+    },
+    {
+        nama : 'Pipin',
+        kelas : 'IF - A'
+    },];
+    //memanggil index didalam folder views
+    res.render('index',{ 
+        nama : 'Juan Azhar', 
+        title : 'Home Page',
+        mahasiswa,
+        layout : 'layout/main_layout'
+    });
 })
 
 //get mengirimkan text
 app.get('/about', (req, res) => {
-    res.send('Ini halaman about');
+    res.render('about', {
+        title : 'About Page',
+        layout : 'layout/main_layout'});
 })
 
-//get mengirimkan json
 app.get('/contact', (req, res) => {
-    res.json({
-        nama : 'Juan Azhar',
-        email : 'juanajh428@gmail.com',
-        noHP : '0895637496991'
-    });
+    //get mengirimkan json
+    // res.json({
+    //     nama : 'Juan Azhar',
+    //     email : 'juanajh428@gmail.com',
+    //     noHP : '0895637496991'
+    // });
+    res.render('contact', {
+        title : 'Contact Page',
+        layout : 'layout/main_layout'});
 })
 
 //get menggunakan params

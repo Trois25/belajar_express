@@ -1,0 +1,19 @@
+    <!-- dodalam <% %> merupakan syntax js -->
+    <h1>Welcome to our Website</h1>
+    <h2>Hello <%= nama %>!</h2>
+    <h3>Nama Penghuni kos</h3>
+    <% if (mahasiswa.length == 0) { %>
+        <p>Kosnya masih kosong</p>
+    <% }else{ %>
+        <% mahasiswa.forEach(user => { %>
+            <ul>
+                <li>
+                    Nama : <%= user.nama %>
+                </li>
+                <li>
+                    Kelas : <%= user.kelas %>
+                </li>
+            </ul>        
+        <% }) %>
+    <% } %>
+    <h1>Ini Halaman About</h1>
