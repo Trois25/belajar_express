@@ -9,6 +9,19 @@ const port = 3000
 app.set('view engine', 'ejs');
 app.use(expressLayout);
 
+//memanggil thirdparty middleare untuk log
+const morgan = require('morgan');
+
+//application level middleware
+app.use((req, res, next) => {
+    console.log('Time: ' , Date.now() + ' ms');
+    next();
+})
+
+//middleware built-in
+app.use(express.static('public'))
+app.use(morgan('dev'))
+
 //get mengirim file index html
 app.get('/', (req, res) => {
     const mahasiswa = [
