@@ -1,7 +1,8 @@
 //note : pada express urutan route untuk use berpengaruh sehingga apabila use / diberikan diatas maka route lain tak akan dijalankan
 const express = require('express');
-
 const expressLayout = require('express-ejs-layouts');
+const {loadContact, findContact} = require('./utils/contacts')
+
 const app = express();
 const port = 3000
 
@@ -9,18 +10,8 @@ const port = 3000
 app.set('view engine', 'ejs');
 app.use(expressLayout);
 
-//memanggil thirdparty middleare untuk log
-const morgan = require('morgan');
-
-//application level middleware
-app.use((req, res, next) => {
-    console.log('Time: ' , Date.now() + ' ms');
-    next();
-})
-
 //middleware built-in
 app.use(express.static('public'))
-app.use(morgan('dev'))
 
 //get mengirim file index html
 app.get('/', (req, res) => {
@@ -54,21 +45,25 @@ app.get('/about', (req, res) => {
 })
 
 app.get('/contact', (req, res) => {
-    //get mengirimkan json
-    // res.json({
-    //     nama : 'Juan Azhar',
-    //     email : 'juanajh428@gmail.com',
-    //     noHP : '0895637496991'
-    // });
+
+    const contacts = loadContact();
+
     res.render('contact', {
         title : 'Contact Page',
-        layout : 'layout/main_layout'});
+        layout : 'layout/main_layout',
+        contacts
+    });
 })
 
-//get menggunakan params
-app.get('/product/:id', (req, res) => {
-    res.send(`Ini merupakan product dengan id : ${req.params.id} <br> Nama item : ${req.query.name}`);
-    //query diambil dari url user ct : http://localhost:3000/product/1?name=buah
+app.get('/contact/:nama', (req, res) => {
+
+    const contact = findContact(req.params.nama);
+
+    res.render('detail', {
+        title : 'Halaman Detail Contact',
+        layout : 'layout/main_layout',
+        contact
+    });
 })
 
 //route apabila tidak ada yang ssesuai dengan yang diatas
